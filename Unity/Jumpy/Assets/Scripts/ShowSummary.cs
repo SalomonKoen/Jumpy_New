@@ -29,6 +29,7 @@ public class ShowSummary : MonoBehaviour {
 		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
 		if(GUI.Button(new Rect(20,40,Screen.width-40,20), "Restart")) {
 			PlayerScript.distance = 0;
+			Time.timeScale = 1;
 			Application.LoadLevel(0);
 		}
 

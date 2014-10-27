@@ -176,7 +176,8 @@ public class PlayerScript : MonoBehaviour {
 		if (transform.position.y + transform.GetChild(0).GetComponent<BoxCollider2D>().bounds.size.y < 0)
 		{
 			//sendData();
-			
+			GameObject c = GameObject.Find("Main Camera");
+			c.AddComponent("ShowSummary");
             Time.timeScale = 0;
         }
     }
