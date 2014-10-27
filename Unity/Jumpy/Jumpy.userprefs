@@ -1,0 +1,23 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameGenerator.cs">
+    <Files>
+      <File FileName="Assets\Scripts\ScoreScript.cs" Line="18" Column="1" />
+      <File FileName="Assets\Scripts\ScrollingScript.cs" Line="124" Column="6" />
+      <File FileName="Assets\Scripts\GameGenerator.cs" Line="153" Column="7" />
+      <File FileName="Assets\Scripts\PlayerScript.cs" Line="31" Column="31" />
+      <File FileName="Assets\Scripts\BulletScript.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Salomon Koen\Documents\GitHub\Jumpy\Unity\Jumpy\Assets\Scripts\ScrollingScript.cs" line="216" />
+      <Breakpoint file="C:\Users\Salomon Koen\Documents\GitHub\Jumpy\Unity\Jumpy\Assets\Scripts\ScrollingScript.cs" line="229" />
+      <Breakpoint file="C:\Users\Salomon Koen\Documents\GitHub\Jumpy\Unity\Jumpy\Assets\Scripts\GameGenerator.cs" line="145" />
+      <Breakpoint file="C:\Users\Salomon Koen\Documents\GitHub\Jumpy\Unity\Jumpy\Assets\Scripts\GameGenerator.cs" line="171" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="Assets\Scripts\GameGenerator.cs" line="148" offsetX="501" offsetY="2499" expression="platforms" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>

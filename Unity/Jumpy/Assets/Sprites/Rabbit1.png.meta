@@ -1,0 +1,102 @@
+fileFormatVersion: 2
+guid: 720c57a54dcde104faa4e687fae459fd
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Rabbit1_0
+    21300002: Rabbit1_1
+    21300004: Rabbit1_2
+    21300006: Rabbit1_3
+    21300008: Rabbit1_4
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 400
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Rabbit1_0
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 596
+        width: 387
+        height: 411
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rabbit1_1
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 772
+        width: 266
+        height: 152
+      alignment: 9
+      pivot: {x: .838496864, y: .812639356}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rabbit1_2
+      rect:
+        serializedVersion: 2
+        x: 913
+        y: 766
+        width: 264
+        height: 151
+      alignment: 9
+      pivot: {x: .158938318, y: .814709783}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rabbit1_3
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 231
+        width: 239
+        height: 328
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rabbit1_4
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 138
+        width: 508
+        height: 504
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

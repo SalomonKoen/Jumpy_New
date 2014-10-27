@@ -1,0 +1,113 @@
+fileFormatVersion: 2
+guid: 9e096e7885c34f344b085caad52af0f0
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Kangaroo1_0
+    21300002: Kangaroo1_1
+    21300004: Kangaroo1_2
+    21300006: Kangaroo1_3
+    21300008: Kangaroo1_4
+    21300010: Kangaroo1_5
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 400
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Kangaroo1_0
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1051
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Kangaroo1_1
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 595
+        width: 322
+        height: 410
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Kangaroo1_2
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 768
+        width: 283
+        height: 161
+      alignment: 9
+      pivot: {x: .809325099, y: .826232553}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Kangaroo1_3
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 763
+        width: 283
+        height: 161
+      alignment: 9
+      pivot: {x: .164161056, y: .810697734}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Kangaroo1_4
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 73
+        width: 475
+        height: 480
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Kangaroo1_5
+      rect:
+        serializedVersion: 2
+        x: 721
+        y: 163
+        width: 508
+        height: 504
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
