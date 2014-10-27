@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,11 @@ public class ProfileActivity extends Activity
 	Profile selected;
 	ProfileAdapter adapter;
 	
-	private void ShowAlert()
+	private Button btnNewProfile;
+	private Button btnChangeProfile;
+	private Button btnDeleteProfile;
+	
+	private void ShowAlert(boolean cancelable)
 	{
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -30,7 +35,7 @@ public class ProfileActivity extends Activity
 		final EditText input = new EditText(this);
 		alert.setView(input);
 
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() 
+		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() 
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int whichButton)
@@ -49,6 +54,70 @@ public class ProfileActivity extends Activity
 				adapter.add(profile);
 				
 				adapter.changeProfile(profile);
+			}
+		});
+
+		if (cancelable)
+		{
+			alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton)
+				{
+		
+				}
+			});
+		}
+		
+		alert.setCancelable(cancelable);
+
+		alert.show();
+	}
+	
+	private void ShowDeleteAlert()
+	{
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		alert.setTitle("Delete Profile");
+		alert.setMessage("Are you sure?");
+
+		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() 
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton)
+			{
+				JumpyApplication app = (JumpyApplication)ProfileActivity.this.getApplication();
+				
+				if (selected.isActive())
+				{
+					AlertDialog.Builder notifDialog = new AlertDialog.Builder(ProfileActivity.this);
+					
+					notifDialog.setTitle("Cannot Delete");
+					notifDialog.setMessage("You cannot delete the active profile. Please change to another profile first.");
+					notifDialog.setPositiveButton("OK", new DialogInterface.OnClickListener()
+					{
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{
+							
+						}
+					});
+					
+					notifDialog.show();
+				}
+				else
+				{
+					SQLiteHelper helper = app.getHelper();
+					
+					helper.removePlayer(selected.getPlayer_id());
+					adapter.remove(selected);
+					
+					selected = null;
+					
+					btnDeleteProfile.setEnabled(false);
+					btnChangeProfile.setEnabled(false);
+				}
 			}
 		});
 
@@ -84,13 +153,22 @@ public class ProfileActivity extends Activity
 		// attach adapter to list view
 		listView.setAdapter(adapter);
 		
-		Button newProfile = (Button)findViewById(R.id.btnNew);
-		
-		newProfile.setOnClickListener(new OnClickListener() {
+		btnNewProfile = (Button)findViewById(R.id.btnNew);
+		btnNewProfile.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				ShowAlert();
+				ShowAlert(true);
+			}
+		});
+		
+		btnDeleteProfile = (Button)findViewById(R.id.btnDelete);
+		btnDeleteProfile.setEnabled(false);
+		btnDeleteProfile.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ShowDeleteAlert();
 			}
 		});
 		
@@ -99,7 +177,10 @@ public class ProfileActivity extends Activity
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				
+				btnChangeProfile.setEnabled(true);
+				btnDeleteProfile.setEnabled(true);
+				
 				if (selected != null)
 				{
 					selected.setSelected(false);
@@ -111,8 +192,9 @@ public class ProfileActivity extends Activity
 			}
 		});
 
-		Button changeBtn = (Button)findViewById(R.id.btnChange);
-		changeBtn.setOnClickListener(new OnClickListener() {
+		btnChangeProfile = (Button)findViewById(R.id.btnChange);
+		btnChangeProfile.setEnabled(false);
+		btnChangeProfile.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

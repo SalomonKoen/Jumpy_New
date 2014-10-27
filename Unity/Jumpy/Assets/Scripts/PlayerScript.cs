@@ -20,8 +20,9 @@ public class PlayerScript : MonoBehaviour {
 	public Animator animator;
 
 	public Transform gun;
+	private float gunRotReset = 0f;
 
-	public float fireRate = 0.2f;
+	public float fireRate = 0.3f;
 	private float nextFire = 0.0F;
 
 	private bool move = true;
@@ -59,14 +60,38 @@ public class PlayerScript : MonoBehaviour {
 
 		if (move)
 		{
+			if (gunRotReset != 0)
+				if (Time.time - gunRotReset > 0.5f)
+					resetGun();
+
 			if (Input.touchCount > 0 && Time.time > nextFire)
 			{
+				gunRotReset = Time.time;
 				nextFire = Time.time + fireRate;
 				Vector2 direction = (Input.GetTouch(0).position - new Vector2(Screen.width / 2, 0)).normalized;
 				direction = new Vector2(Mathf.Clamp(direction.x, -5, 5), Mathf.Clamp (direction.y, 1, 5));
 
 				var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-				gun.rotation = Quaternion.AngleAxis(angle - 32, Vector3.forward);
+
+				Quaternion rot = Quaternion.AngleAxis(angle - 32, Vector3.forward);
+				
+				if (rot.z > 0.45 && !inverted)
+				{
+					inverted = true;
+					gun.localScale = new Vector3(-gun.localScale.x, gun.localScale.y, gun.localScale.z);
+				}
+				else if (rot.z < 0.45 && inverted)
+				{
+					inverted = false;
+					gun.localScale = new Vector3(-gun.localScale.x, gun.localScale.y, gun.localScale.z);
+				}
+				
+				if (inverted)
+				{
+					rot = Quaternion.AngleAxis(angle + 32 + 180, Vector3.forward);
+				}
+				
+				gun.rotation = rot;
 				
 				GameObject obj = (GameObject)Instantiate(bullet, new Vector2(gun.position.x, gun.position.y), Quaternion.identity);
 				BulletScript script = obj.GetComponent<BulletScript>();
@@ -78,6 +103,7 @@ public class PlayerScript : MonoBehaviour {
 			{
 				if (Input.GetButtonDown("Fire1"))
 				{
+					gunRotReset = Time.time;
 					nextFire = Time.time + fireRate;
 					Vector3 direction = (Input.mousePosition - new Vector3(Screen.width / 2, 0)).normalized;
 					direction = new Vector2(Mathf.Clamp(direction.x, -5, 5), Mathf.Clamp (direction.y, 1, 5));
@@ -85,8 +111,6 @@ public class PlayerScript : MonoBehaviour {
 					var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
 					Quaternion rot = Quaternion.AngleAxis(angle - 32, Vector3.forward);
-
-					Debug.Log(gun.rotation.z);
 
 					if (rot.z > 0.45 && !inverted)
 					{
@@ -180,6 +204,12 @@ public class PlayerScript : MonoBehaviour {
             Time.timeScale = 0;
         }
     }
+
+	private void resetGun()
+	{
+		gunRotReset = Time.time;
+		gun.rotation = Quaternion.AngleAxis(0, Vector3.forward);
+	}
 
 	public void setJump(bool jump)
 	{

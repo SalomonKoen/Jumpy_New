@@ -361,6 +361,18 @@ public class SQLiteHelper extends SQLiteOpenHelper
 		return new Player(id, name, 100, new Inventory(items));
 	}
 	
+	public void removePlayer(int player_id)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		String sql = "DELETE FROM Player "
+				+ "WHERE player_id=" + player_id;
+		
+		db.execSQL(sql);
+		
+		db.close();
+	}
+	
 	public Player getPlayer(int player_id)
 	{
 		SQLiteDatabase db = this.getReadableDatabase();

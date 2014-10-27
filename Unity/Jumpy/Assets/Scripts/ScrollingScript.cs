@@ -30,6 +30,10 @@ public class ScrollingScript : MonoBehaviour
 	private float screenWidth;
 	private float screenHeight;
 
+	public static bool isLeftTrans = false;
+	public static bool isRightTrans = false;
+	public static bool isBackTrans = false;
+
 	public static bool isTransition = false;
 
 	private Transform transition;
@@ -107,6 +111,19 @@ public class ScrollingScript : MonoBehaviour
 	public void Transition(GameObject transition, GameObject background)
 	{
 		isTransition = true;
+
+		if (fillScreen)
+		{
+			isBackTrans = true;
+		}
+		else if (alignLeft)
+		{
+			isLeftTrans = true;
+		}
+		else if (alignRight)
+		{
+			isRightTrans = true;
+		}
 
 		transition.transform.parent = transform;
 		background.transform.parent = transform;
@@ -213,8 +230,23 @@ public class ScrollingScript : MonoBehaviour
 						{
 							if (firstChild.Equals(background))
 							{
-								isTransition = false;
-								backgroundPart.Remove(background);
+								if (fillScreen)
+								{
+									isBackTrans = false;
+								}
+								else if (alignLeft)
+								{
+									isLeftTrans = false;
+								}
+								else if (alignRight)
+								{
+									isRightTrans = false;
+								}
+
+								if (!isBackTrans && !isLeftTrans && !isRightTrans)
+									isTransition = false;
+
+								backgroundPart.RemoveAt(0);
 								Destroy (background.gameObject);
 							}
 							else if (!firstChild.Equals(transition))
@@ -226,7 +258,7 @@ public class ScrollingScript : MonoBehaviour
 							}
 							else if (firstChild.Equals(transition))
 							{
-								backgroundPart.Remove(firstChild);
+								backgroundPart.RemoveAt (0);
 								Destroy(firstChild.gameObject);
 							}
 						}
@@ -259,7 +291,7 @@ public class ScrollingScript : MonoBehaviour
 
 		newOne.position = pos;
 
-		backgroundPart.Remove (firstChild);
+		backgroundPart.RemoveAt(0);
 		Destroy (firstChild.gameObject);
 		backgroundPart.Add (newOne);
 	}
@@ -268,7 +300,7 @@ public class ScrollingScript : MonoBehaviour
     {
         firstChild.position = pos;
 
-        backgroundPart.Remove (firstChild);
+        backgroundPart.RemoveAt(0);
         backgroundPart.Add (firstChild);
     }
 }
