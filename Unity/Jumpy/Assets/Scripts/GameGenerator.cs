@@ -17,6 +17,8 @@ public class GameGenerator : MonoBehaviour
     private GameObject curPlatform;
 	private GameObject nextPlatform;
 
+	public GameObject enemyHolder;
+
 	private bool started = false;
 
 	private bool increase = true;
@@ -30,12 +32,14 @@ public class GameGenerator : MonoBehaviour
 
 	private bool combine = false;
 
-	private int newHeight = 40;
-	//100
+	private int newHeight = 100;
 	private bool inbetween = true;
 
     private Vector2 size;
     private GameObject maxObj = null;
+
+	private bool hasEnemies = true;
+	private float enemyTime = 0;
 
 	public Transform scorePrefab;
 
@@ -119,10 +123,25 @@ public class GameGenerator : MonoBehaviour
 	{
 		this.highscores = highscores;
 	}
+
+	public void noenemies()
+	{
+		for (int i = 0; i < enemyHolder.transform.childCount; i++)
+		{
+			Destroy (enemyHolder.transform.GetChild(i).gameObject);
+		}
+
+		hasEnemies = false;
+		enemyTime = Time.time;
+	}
 	
 	void Update ()
     {
 		started = true;
+
+		if (!hasEnemies && Time.time - enemyTime > 30f)
+			hasEnemies = true;
+
         if (maxObj.transform.position.y < size.y)
 		{
 			spawnObjects();
@@ -217,11 +236,12 @@ public class GameGenerator : MonoBehaviour
 
 			maxObj = (GameObject)Instantiate(platform, new Vector3(Random.Range(-size.x + platform.renderer.bounds.size.x / 2, size.x - platform.renderer.bounds.size.x / 2), curPoint), Quaternion.identity);
         	
-			if (Random.Range(0f, 1f) < enemyProb)
+			if (Random.Range(0f, 1f) < enemyProb && hasEnemies)
 			{
 				GameObject enemy = enemies[Random.Range(0, enemies.Count)];
 				Transform enemyChild = enemy.transform.GetChild(0);
-				Instantiate(enemy, new Vector3(maxObj.transform.position.x, maxObj.transform.position.y + enemyChild.renderer.bounds.size.y/2, enemy.transform.position.z), Quaternion.identity);		
+				GameObject e = (GameObject)Instantiate(enemy, new Vector3(maxObj.transform.position.x, maxObj.transform.position.y + enemyChild.renderer.bounds.size.y/2, enemy.transform.position.z), Quaternion.identity);		
+				e.transform.parent = enemyHolder.transform;
 			}
 		}
     }

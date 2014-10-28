@@ -77,18 +77,16 @@ public class SQLiteHelper extends SQLiteOpenHelper
 				+ "description TEXT, "
 				+ "price INTEGER, "
 				+ "image INTEGER, "
-				+ "type INTEGER CONSTRAINT check_type CHECK (type IN (0, 1, 2)), "
+				+ "type INTEGER CONSTRAINT check_type CHECK (type IN (0, 1, 2, 3)), "
 				+ "multiple BOOLEAN);";		
 		
 		db.execSQL(sql);
 		
 		String[] items = {
-				"null, 'Jumping Boots', 'Makes you jump 50% higher', 10, " + R.drawable.item_1 + ", 1, 1",
-				"null, 'Jumping Boots', 'Makes you jump 50% higher', 10, " + R.drawable.item_2 + ", 1, 1",
-				"null, 'Jumping Boots', 'Makes you jump 50% higher', 10, " + R.drawable.item_3 + ", 1, 1",
-				"null, 'Jumping Boots', 'Makes you jump 50% higher', 10, " + R.drawable.item_4 + ", 1, 1",
-				"null, 'Jumping Boots', 'Makes you jump 50% higher', 10, " + R.drawable.item_5 + ", 1, 1",
-				"null, 'Jumping Boots', 'Makes you jump 50% higher', 10, " + R.drawable.item_6 + ", 1, 1",
+				"null, 'Time Slow', 'Slows down time for 10 seconds.', 200, " + R.drawable.item_1 + ", 0, 1",
+				"null, 'Super Shooter', 'Increases the rate of fire for 10 seconds.', 100, " + R.drawable.item_2 + ", 1, 1",
+				"null, 'No Enemies', 'Removes all enemies for 30 seconds.', 300, " + R.drawable.item_3 + ", 2, 1",
+				"null, 'Indestructible', 'Makes you indestructible for 15 seconds', 400, " + R.drawable.item_4 + ", 3, 1",
 		};
 		
 		for (String s : items)
@@ -113,17 +111,15 @@ public class SQLiteHelper extends SQLiteOpenHelper
 		String sql = "CREATE TABLE Powerup ("
 				+ "item_id INTEGER PRIMARY KEY REFERENCES Item(item_id), "
 				+ "type INTEGER, "
-				+ "value INTEGER);";
+				+ "value REAL);";
 		
 		db.execSQL(sql);
 		
 		String[] items = { 
-				"1, 10, 5",
-				"2, 10, 5",
-				"3, 10, 5",
-				"4, 10, 5",
-				"5, 10, 5",
-				"6, 10, 5"
+				"1, 0, 0.7",
+				"2, 1, 0",
+				"3, 2, 0",
+				"4, 3, 0"
 		};
 		
 		for (String s : items)
@@ -245,7 +241,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
 					
 					if (cursor2.moveToFirst())
 					{
-						item = new Powerup(id, name, description, multiple, price, image, quantity, cursor2.getInt(1), cursor2.getInt(2));
+						item = new Powerup(id, name, description, multiple, price, image, quantity, cursor2.getInt(1), cursor2.getDouble(2));
 					}
 				}
 				else if (type == 2)

@@ -12,6 +12,9 @@ public class PlayerScript : MonoBehaviour {
 
     public float damp = 20;
 
+	private int jumpLayer = 8;
+	private int fallLayer = 9;
+
     private bool jump = true;
 	private bool inverted = false;
 	
@@ -22,10 +25,16 @@ public class PlayerScript : MonoBehaviour {
 	public Transform gun;
 	private float gunRotReset = 0f;
 
-	public float fireRate = 0.3f;
+	public float fireRate = 0.5f;
 	private float nextFire = 0.0F;
 
 	private bool move = true;
+
+	private bool indestructible = true;
+	private bool supershooter = false;
+	private bool slowdown = false;
+
+	private float powerupTimer;
 
 	private Powerup[] powerups;
 
@@ -41,11 +50,18 @@ public class PlayerScript : MonoBehaviour {
 
 	public static float distance = 0;
 
+	public bool isIndestructible()
+	{
+		return indestructible;
+	}
+
     void Start()
     {
 		curTransform = transform;
 		box = transform.GetChild(0).GetComponent<BoxCollider2D>();
 		boxWidth = box.size.x*transform.localScale.x;
+
+		Slowdown(0.5f);
     }
 
 	void Update()
@@ -60,6 +76,33 @@ public class PlayerScript : MonoBehaviour {
 
 		if (move)
 		{
+			if (indestructible && Time.time - powerupTimer > 15f)
+			{
+				indestructible = false;
+				jumpLayer = 13;
+				fallLayer = 14;
+				if (rigidbody2D.velocity.y <= 0)
+				{
+					gameObject.layer = jumpLayer;
+					transform.GetChild(0).gameObject.layer = jumpLayer;
+				}
+				else
+				{
+					gameObject.layer = fallLayer;
+					transform.GetChild(0).gameObject.layer = fallLayer;
+				}
+			}
+			else if (supershooter && Time.time - powerupTimer > 10f)
+			{
+				supershooter = false;
+				fireRate = 0.5f;
+			}
+			else if (slowdown && Time.time - powerupTimer > 10f)
+			{
+				slowdown = false;
+				Time.timeScale = 1.0f;
+			}
+
 			if (gunRotReset != 0)
 				if (Time.time - gunRotReset > 0.5f)
 					resetGun();
@@ -101,7 +144,7 @@ public class PlayerScript : MonoBehaviour {
 
 			if (Application.platform != RuntimePlatform.Android)
 			{
-				if (Input.GetButtonDown("Fire1"))
+				if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
 				{
 					gunRotReset = Time.time;
 					nextFire = Time.time + fireRate;
@@ -166,13 +209,16 @@ public class PlayerScript : MonoBehaviour {
 
 	        transform.position = new Vector3(Mathf.Lerp(transform.position.x, transform.position.x + x, Time.deltaTime * damp), transform.position.y, -1);
 
-	        if (jump)
+			if (indestructible && transform.position.y <= transform.GetChild(0).GetComponent<BoxCollider2D>().bounds.size.y/2)
+				jump = true;
+
+			if (jump)
 	        {
 	            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce*speed);
 				animator.SetBool("Fall", false);
 				animator.SetBool ("Jump", true);
-	            gameObject.layer = 8;
-				transform.GetChild(1).gameObject.layer = 8;
+	            gameObject.layer = jumpLayer;
+				transform.GetChild(1).gameObject.layer = jumpLayer;
 	            jump = false;
 	        }
 
@@ -181,8 +227,8 @@ public class PlayerScript : MonoBehaviour {
 				animator.SetBool ("Jump", false);
 				animator.SetBool("Fall", true);
 
-	            gameObject.layer = 9;
-				transform.GetChild(1).gameObject.layer = 9;
+	            gameObject.layer = fallLayer;
+				transform.GetChild(1).gameObject.layer = fallLayer;
 	        }
 
 			float width = Camera.main.ScreenToWorldPoint(new Vector2(Camera.main.pixelWidth,0)).x;
@@ -199,9 +245,21 @@ public class PlayerScript : MonoBehaviour {
 
 		if (transform.position.y + transform.GetChild(0).GetComponent<BoxCollider2D>().bounds.size.y < 0)
 		{
-			//sendData();
-			
-            Time.timeScale = 0;
+			if (!indestructible)
+			{
+				//sendData();
+				
+	            Time.timeScale = 0;
+			}
+			else
+			{
+				rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce*speed);
+				animator.SetBool("Fall", false);
+				animator.SetBool ("Jump", true);
+				gameObject.layer = jumpLayer;
+				transform.GetChild(1).gameObject.layer = jumpLayer;
+				jump = false;
+			}
         }
     }
 
@@ -209,6 +267,40 @@ public class PlayerScript : MonoBehaviour {
 	{
 		gunRotReset = Time.time;
 		gun.rotation = Quaternion.AngleAxis(0, Vector3.forward);
+	}
+
+	public void Indestructible()
+	{
+		indestructible = true;
+		jumpLayer = 13;
+		fallLayer = 14;
+
+		if (rigidbody2D.velocity.y <= 0)
+		{
+			gameObject.layer = jumpLayer;
+			transform.GetChild(0).gameObject.layer = jumpLayer;
+		}
+		else
+		{
+			gameObject.layer = fallLayer;
+			transform.GetChild(0).gameObject.layer = fallLayer;
+		}
+
+		powerupTimer = Time.time;
+	}
+
+	public void Slowdown(float time)
+	{
+		slowdown = true;
+		Time.timeScale = time;
+		powerupTimer = Time.time;
+	}
+
+	public void Supershooter()
+	{
+		supershooter = true;
+		fireRate = 0.05f;
+		powerupTimer = Time.time;
 	}
 
 	public void setJump(bool jump)
