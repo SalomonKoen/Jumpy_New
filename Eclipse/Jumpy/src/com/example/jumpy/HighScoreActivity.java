@@ -37,6 +37,23 @@ public class HighScoreActivity extends Activity
 		HighScoreAdapter adapter = new HighScoreAdapter(this, items);
 		highscores.setAdapter(adapter);
 		
+		Button local = (Button)findViewById(R.id.btnLocal);
+		local.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ListView highscores = (ListView)findViewById(R.id.lvHighScores);
+				
+				JumpyApplication application = (JumpyApplication)getApplication();
+				
+				List<HighScore> items = application.getHelper().getHighScores(application.getPlayer().getId());
+
+				HighScoreAdapter adapter = new HighScoreAdapter(context, items);
+				highscores.setAdapter(adapter);
+			}
+		});
+		
 		Button online = (Button)findViewById(R.id.btnOnline);
 		online.setOnClickListener(new OnClickListener() {
 			
