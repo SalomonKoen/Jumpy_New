@@ -35,21 +35,21 @@ public class ShowSummary : MonoBehaviour {
 
 		if (!FB.IsLoggedIn)                                                                                              
 		{                                                          
-			GUI.Label((new Rect(179 , 11, 287, 160)), "Login to Facebook");             
-			if (GUI.Button(new Rect(179 , 11, 287, 160), ""))                                      
+			//GUI.Label((new Rect(179 , 11, 287, 160)), "Login to Facebook");             
+			if (GUI.Button(new Rect(20,70,Screen.width-40,20), "Login to Facebook"))                                      
 			{                                                                                                            
 				FB.Login("email,publish_actions", LoginCallback);                                                        
 			}                                                                                                            
 		} 
 		
 		// Make the second button.
-		if(GUI.Button(new Rect(20,70,Screen.width-40,20), "Share")) {
+		else if(GUI.Button(new Rect(20,70,Screen.width-40,20), "Share")) {
 			if (FB.IsLoggedIn)
 			{
 				FB.Feed(                                                                                                                 
-				        linkCaption: "I just smashed " + 0 + " friends! Can you beat it?",               
+				        linkCaption: "I just reached " + PlayerScript.distance + "! Can you beat it?",               
 				        picture: "http://www.friendsmash.com/images/logo_large.jpg",                                                     
-				        linkName: "Checkout my Friend Smash greatness!",                                                                 
+				        linkName: "Checkout my Jumpy greatness!",                                                                 
 				        link: "http://apps.facebook.com/" + FB.AppId + "/?challenge_brag=" + (FB.IsLoggedIn ? FB.UserId : "guest")       
 				        );     
 			}

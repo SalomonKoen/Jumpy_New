@@ -7,8 +7,8 @@ public class HUDScript : MonoBehaviour {
 	public Texture btnTexture2;
 	public Texture btnTexture3;
 	public Texture btnTexture4;
-	public Texture btnTexture5;
-	private bool showGUI = true;
+
+	public bool showGUI = true;
 
 	float timeLeft = 10.0f;
 
@@ -28,7 +28,7 @@ public class HUDScript : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		GUI.contentColor = Color.black;
+		GUI.contentColor = Color.white;
 		GUI.Label(new Rect(10,10,100,90), "Distance: " + Mathf.Ceil(PlayerScript.distance/10));
 
 		// Make a background box
@@ -47,7 +47,7 @@ public class HUDScript : MonoBehaviour {
 		}
 
 		if (!btnTexture && showGUI) {
-			if (GUI.Button(new Rect(10, Screen.height-50, 50, 30), "Click"))
+			if (GUI.Button(new Rect(Screen.width/3-50, Screen.height-50, 50, 30), "Click"))
 			{
 				timeLeft = 10.0f;
 				showGUI = false;
@@ -55,7 +55,44 @@ public class HUDScript : MonoBehaviour {
 		}
 		else if (showGUI) 
 		{
-			GUI.Button(new Rect(10, Screen.height-50, 50, 50), btnTexture);
+			GUI.Button(new Rect(Screen.width/3-50, Screen.height-50, 50, 50), btnTexture);
 		}		
+
+		if (!btnTexture2 && showGUI) {
+			if (GUI.Button(new Rect(Screen.width/2-50, Screen.height-50, 50, 30), "Click"))
+			{
+				timeLeft = 10.0f;
+				showGUI = false;
+			}
+		}
+		else if (showGUI) 
+		{
+			GUI.Button(new Rect(Screen.width/2-50, Screen.height-50, 50, 50), btnTexture2);
+		}	
+
+		if (!btnTexture3 && showGUI) {
+			if (GUI.Button(new Rect(Screen.width*2/3-50, Screen.height-50, 50, 30), "Click"))
+			{
+				timeLeft = 10.0f;
+				showGUI = false;
+			}
+		}
+		else if (showGUI) 
+		{
+			GUI.Button(new Rect(Screen.width*2/3-50, Screen.height-50, 50, 50), btnTexture3);
+		}	
+
+		if (!btnTexture4 && showGUI) {
+			if (GUI.Button(new Rect(Screen.width*5/6-50, Screen.height-50, 50, 30), "Click"))
+			{
+				timeLeft = 10.0f;
+				showGUI = false;
+			}
+		}
+		else if (showGUI) 
+		{
+			GUI.Button(new Rect(Screen.width*5/6-50, Screen.height-50, 50, 50), btnTexture4);
+		}
+
 	}
 }

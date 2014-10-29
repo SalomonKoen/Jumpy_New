@@ -78,6 +78,11 @@ public class PlayerScript : MonoBehaviour {
 			{
 				if (Input.GetButtonDown("Fire1"))
 				{
+					GameObject soundObject = GameObject.Find("Shoot");
+					
+					AudioSource ac = soundObject.GetComponent<AudioSource>();
+					ac.audio.Play();
+
 					nextFire = Time.time + fireRate;
 					Vector3 direction = (Input.mousePosition - new Vector3(Screen.width / 2, 0)).normalized;
 					direction = new Vector2(Mathf.Clamp(direction.x, -5, 5), Mathf.Clamp (direction.y, 1, 5));
@@ -144,6 +149,10 @@ public class PlayerScript : MonoBehaviour {
 
 	        if (jump)
 	        {
+				GameObject soundObject = GameObject.Find("Boing");
+
+				AudioSource ac = soundObject.GetComponent<AudioSource>();
+				ac.audio.Play();
 	            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce*speed);
 				animator.SetBool("Fall", false);
 				animator.SetBool ("Jump", true);
@@ -176,7 +185,14 @@ public class PlayerScript : MonoBehaviour {
 		if (transform.position.y + transform.GetChild(0).GetComponent<BoxCollider2D>().bounds.size.y < 0)
 		{
 			//sendData();
+			GameObject soundObject = GameObject.Find("Desc");
+			
+			AudioSource ac = soundObject.GetComponent<AudioSource>();
+			ac.audio.Play();
+
 			GameObject c = GameObject.Find("Main Camera");
+			HUDScript hs = (HUDScript)c.GetComponent( "HUDScript");
+			hs.enabled = false;
 			c.AddComponent("ShowSummary");
             Time.timeScale = 0;
         }

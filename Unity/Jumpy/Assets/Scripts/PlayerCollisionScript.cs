@@ -33,6 +33,11 @@ public class PlayerCollisionScript : MonoBehaviour {
 			}
 			else if (collision.gameObject.tag == "enemy" && gameObject.tag == "enemyCollider")
 			{
+				GameObject soundObject = GameObject.Find("EnemySound");
+				
+				AudioSource ac = soundObject.GetComponent<AudioSource>();
+				ac.audio.Play();
+
 				Transform enemy = collision.gameObject.transform;
 				BoxCollider2D collider = collision.gameObject.GetComponent<BoxCollider2D>();
 			
