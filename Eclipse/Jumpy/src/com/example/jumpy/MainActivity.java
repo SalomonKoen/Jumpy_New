@@ -13,6 +13,7 @@ import android.widget.EditText;
 public class MainActivity extends Activity
 {
 	private Intent musicService;
+	private boolean resumed = false;
 	
 	@Override
 	protected void onStart()
@@ -31,11 +32,6 @@ public class MainActivity extends Activity
 		SQLiteHelper helper = new SQLiteHelper(this);
 		
 		app.setHelper(helper);
-		
-		if (!Settings.loadSettings(getSharedPreferences("Settings", 0), app))
-		{
-			ShowAlert();
-		}
 		
 		JumpyApplication application = (JumpyApplication)getApplication();
 		application.setVolume(Settings.getMusic());
@@ -141,35 +137,37 @@ public class MainActivity extends Activity
 	}
 	
 	@Override
-	protected void onDestroy()
-	{
-		super.onDestroy();
-		
-		JumpyApplication app = (JumpyApplication)this.getApplication();
-		
-		app.getHelper().savePlayer(app.getPlayer());
-		
-		Settings.savePlayer(getSharedPreferences("Settings", 0), app.getPlayer().getId());
-		app.closeConnection();
-	}
-	
-	@Override
 	protected void onPause()
 	{
+		JumpyApplication app = (JumpyApplication)this.getApplication();
+		
+		Settings.savePlayer(getSharedPreferences("Settings", 0), app.getPlayer().getId());
+		
 		if (this.isFinishing())
 		{
-			JumpyApplication application = (JumpyApplication)this.getApplication();
-			application.pause();
+			app.pause();
+			
+			app.getHelper().savePlayer(app.getPlayer());
+			
+			app.closeConnection();
 		}
 		
 		super.onPause();
-	}
+	} 	
 	
 	@Override
 	protected void onResume()
 	{
-		JumpyApplication application = (JumpyApplication)this.getApplication();
-		application.resume();
+		JumpyApplication app = (JumpyApplication)this.getApplication();
+		app.resume();
+		
+		if (!resumed)
+		{
+			resumed = true;
+			
+			if (!Settings.loadSettings(getSharedPreferences("Settings", 0), app))
+				ShowAlert();
+		}
 		
 		super.onResume();
 	}

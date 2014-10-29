@@ -5,9 +5,9 @@ public class Powerup
 {
 	private int quantity;
 	private int type;
-	private int value;
+	private double value;
 	
-	public Powerup(int quantity, int type, int value)
+	public Powerup(int quantity, int type, double value)
 	{
 		this.quantity = quantity;
 		this.value = value;

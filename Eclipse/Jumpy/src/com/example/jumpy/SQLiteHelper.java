@@ -77,16 +77,16 @@ public class SQLiteHelper extends SQLiteOpenHelper
 				+ "description TEXT, "
 				+ "price INTEGER, "
 				+ "image INTEGER, "
-				+ "type INTEGER CONSTRAINT check_type CHECK (type IN (0, 1, 2, 3)), "
+				+ "type INTEGER CONSTRAINT check_type CHECK (type IN (0, 1, 2)), "
 				+ "multiple BOOLEAN);";		
 		
 		db.execSQL(sql);
 		
 		String[] items = {
-				"null, 'Time Slow', 'Slows down time for 10 seconds.', 200, " + R.drawable.item_1 + ", 0, 1",
-				"null, 'Super Shooter', 'Increases the rate of fire for 10 seconds.', 100, " + R.drawable.item_2 + ", 1, 1",
-				"null, 'No Enemies', 'Removes all enemies for 30 seconds.', 300, " + R.drawable.item_3 + ", 2, 1",
-				"null, 'Indestructible', 'Makes you indestructible for 15 seconds', 400, " + R.drawable.item_4 + ", 3, 1",
+				"null, 'Time Slow', 'Slows down time for 10 seconds.', 200, " + R.drawable.item2 + ", 1, 1",
+				"null, 'Super Shooter', 'Increases the rate of fire for 10 seconds.', 100, " + R.drawable.item1 + ", 1, 1",
+				"null, 'No Enemies', 'Removes all enemies for 30 seconds.', 300, " + R.drawable.item3 + ", 1, 1",
+				"null, 'Indestructible', 'Makes you indestructible for 15 seconds', 400, " + R.drawable.item4 + ", 1, 1",
 		};
 		
 		for (String s : items)
@@ -116,7 +116,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
 		db.execSQL(sql);
 		
 		String[] items = { 
-				"1, 0, 0.7",
+				"1, 1, 0.7",
 				"2, 1, 0",
 				"3, 2, 0",
 				"4, 3, 0"
@@ -167,7 +167,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
 		db.close();
 	}
 	
-	public ArrayList<HighScore> getHighScores(int player_id)
+	public ArrayList<HighScore> getHighScores()
 	{
 		ArrayList<HighScore> highScores = new ArrayList<HighScore>();
 		
@@ -181,7 +181,32 @@ public class SQLiteHelper extends SQLiteOpenHelper
 		if (cursor.moveToFirst())
 		{
 			do {
-				HighScore highScore = new HighScore(cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4));
+				HighScore highScore = new HighScore(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
+				highScores.add(highScore);
+			} while (cursor.moveToNext());
+		}
+		
+		db.close();
+		
+		return highScores;
+	}
+	
+	public ArrayList<HighScore> getHighScores(int player_id, String name)
+	{
+		ArrayList<HighScore> highScores = new ArrayList<HighScore>();
+		
+		String sql = "SELECT HighScore.player_id, HighScore.kills, HighScore.height FROM HighScore"
+				+ "WHERE HighScore.player_id=Player.player_id "
+				+ "AND Player.player_id = " + player_id
+						+ " ORDER BY height DESC, kills;";
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+		
+		if (cursor.moveToFirst())
+		{
+			do {
+				HighScore highScore = new HighScore(cursor.getInt(0), name, cursor.getInt(1), cursor.getInt(2));
 				highScores.add(highScore);
 			} while (cursor.moveToNext());
 		}
@@ -400,7 +425,8 @@ public class SQLiteHelper extends SQLiteOpenHelper
 		saveItems(player);
 		
 		String sql = "UPDATE Player " +
-				"SET coins = " + player.getCoins();
+				"SET coins = " + player.getCoins() + 
+				" WHERE player_id=" + player.getId();
 		
 		SQLiteDatabase db = this.getWritableDatabase();
 		
@@ -439,6 +465,42 @@ public class SQLiteHelper extends SQLiteOpenHelper
 			} while (cursor.moveToNext());
 		}
 		
+		db.close();
+		
 		return profiles;
+	}
+
+	public int getHighScoresCount()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		String sql = "SELECT * FROM HighScore";
+		
+		Cursor cursor = db.rawQuery(sql, null);
+		
+		int n = cursor.getCount();
+		
+		db.close();
+		
+		return n;
+	}
+	
+	public HighScore getHighScore(int index)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		String sql = "SELECT HighScore.player_id, Player.name, HighScore.kills, HighScore.height FROM HighScore, Player "
+				+ "WHERE HighScore.player_id=Player.player_id"
+				+ " ORDER BY height DESC, kills;";
+		
+		Cursor cursor = db.rawQuery(sql, null);
+		
+		cursor.moveToPosition(index);
+		
+		HighScore highScore = new HighScore(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
+		
+		db.close();
+		
+		return highScore;
 	}
 }

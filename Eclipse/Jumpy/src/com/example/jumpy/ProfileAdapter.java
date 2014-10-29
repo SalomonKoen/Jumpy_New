@@ -42,8 +42,9 @@ public class ProfileAdapter extends ArrayAdapter<Profile> {
 		
 		if (profiles.get(position).isActive())
 			txtName.setTextColor(Color.RED);
-		else if (profiles.get(position).isSelected())
-			txtName.setTextColor(Color.GREEN);
+		
+		if (profiles.get(position).isSelected())
+			profileView.setBackgroundColor(Color.LTGRAY);
 		
 		// return view to ListView to display
 		return profileView;

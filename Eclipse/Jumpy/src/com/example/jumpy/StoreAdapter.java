@@ -40,6 +40,8 @@ public class StoreAdapter extends ArrayAdapter<Item>
 		TextView quantity = (TextView)rowView.findViewById(R.id.quantity);
 		final Button buy = (Button)rowView.findViewById(R.id.buy);
 		
+		notifyDataSetChanged();
+		
 		buy.setText(Integer.toString(cur.getPrice()));
 		
 		buy.setOnClickListener(new OnClickListener()
@@ -58,6 +60,9 @@ public class StoreAdapter extends ArrayAdapter<Item>
 				{
 					buy.setEnabled(false);
 				}
+				
+				StoreActivity act = (StoreActivity)context;
+				act.buyItem();
 				
 				notifyDataSetChanged();
 			}

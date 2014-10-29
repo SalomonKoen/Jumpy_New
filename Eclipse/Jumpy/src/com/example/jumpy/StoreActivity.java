@@ -3,6 +3,7 @@ package com.example.jumpy;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class StoreActivity extends Activity
 {
@@ -16,10 +17,23 @@ public class StoreActivity extends Activity
 		
 		Player player = application.getPlayer();
 		
+		TextView txtCoins = (TextView)findViewById(R.id.txtCoins);
+		txtCoins.setText(Integer.toString(player.getCoins()));
+		
 		StoreAdapter adapter = new StoreAdapter(this, player);
 		
 		ListView listView = (ListView)findViewById(R.id.list);
 		listView.setAdapter(adapter);
+	}
+	
+	public void buyItem()
+	{
+		JumpyApplication application = (JumpyApplication)getApplication();
+		
+		Player player = application.getPlayer();
+		
+		TextView txtCoins = (TextView)findViewById(R.id.txtCoins);
+		txtCoins.setText(Integer.toString(player.getCoins()));
 	}
 	
 	@Override
@@ -31,6 +45,8 @@ public class StoreActivity extends Activity
 		{
 			application.pause();
 		}
+		
+		application.getHelper().savePlayer(application.getPlayer());
 		
 		super.onPause();
 	}

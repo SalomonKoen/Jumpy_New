@@ -12,8 +12,8 @@ public class PlayerScript : MonoBehaviour {
 
     public float damp = 20;
 
-	private int jumpLayer = 8;
-	private int fallLayer = 9;
+	private int enemyLayer = 8;
+	private int noEnemyLayer = 13;
 
     private bool jump = true;
 	private bool inverted = false;
@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviour {
 
 	private bool move = true;
 
-	private bool indestructible = true;
+	private bool indestructible = false;
 	private bool supershooter = false;
 	private bool slowdown = false;
 
@@ -60,8 +60,6 @@ public class PlayerScript : MonoBehaviour {
 		curTransform = transform;
 		box = transform.GetChild(0).GetComponent<BoxCollider2D>();
 		boxWidth = box.size.x*transform.localScale.x;
-
-		Slowdown(0.5f);
     }
 
 	void Update()
@@ -79,18 +77,7 @@ public class PlayerScript : MonoBehaviour {
 			if (indestructible && Time.time - powerupTimer > 15f)
 			{
 				indestructible = false;
-				jumpLayer = 13;
-				fallLayer = 14;
-				if (rigidbody2D.velocity.y <= 0)
-				{
-					gameObject.layer = jumpLayer;
-					transform.GetChild(0).gameObject.layer = jumpLayer;
-				}
-				else
-				{
-					gameObject.layer = fallLayer;
-					transform.GetChild(0).gameObject.layer = fallLayer;
-				}
+				transform.GetChild(0).gameObject.layer = enemyLayer;
 			}
 			else if (supershooter && Time.time - powerupTimer > 10f)
 			{
@@ -217,8 +204,8 @@ public class PlayerScript : MonoBehaviour {
 	            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce*speed);
 				animator.SetBool("Fall", false);
 				animator.SetBool ("Jump", true);
-	            gameObject.layer = jumpLayer;
-				transform.GetChild(1).gameObject.layer = jumpLayer;
+	            gameObject.layer = 8;
+				transform.GetChild(1).gameObject.layer = 8;
 	            jump = false;
 	        }
 
@@ -227,8 +214,8 @@ public class PlayerScript : MonoBehaviour {
 				animator.SetBool ("Jump", false);
 				animator.SetBool("Fall", true);
 
-	            gameObject.layer = fallLayer;
-				transform.GetChild(1).gameObject.layer = fallLayer;
+	            gameObject.layer = 9;
+				transform.GetChild(1).gameObject.layer = 9;
 	        }
 
 			float width = Camera.main.ScreenToWorldPoint(new Vector2(Camera.main.pixelWidth,0)).x;
@@ -247,17 +234,16 @@ public class PlayerScript : MonoBehaviour {
 		{
 			if (!indestructible)
 			{
-				//sendData();
-				
 	            Time.timeScale = 0;
+				sendData();
 			}
 			else
 			{
 				rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce*speed);
 				animator.SetBool("Fall", false);
 				animator.SetBool ("Jump", true);
-				gameObject.layer = jumpLayer;
-				transform.GetChild(1).gameObject.layer = jumpLayer;
+				gameObject.layer = 8;
+				transform.GetChild(1).gameObject.layer = 8;
 				jump = false;
 			}
         }
@@ -272,19 +258,7 @@ public class PlayerScript : MonoBehaviour {
 	public void Indestructible()
 	{
 		indestructible = true;
-		jumpLayer = 13;
-		fallLayer = 14;
-
-		if (rigidbody2D.velocity.y <= 0)
-		{
-			gameObject.layer = jumpLayer;
-			transform.GetChild(0).gameObject.layer = jumpLayer;
-		}
-		else
-		{
-			gameObject.layer = fallLayer;
-			transform.GetChild(0).gameObject.layer = fallLayer;
-		}
+		transform.GetChild(0).gameObject.layer = noEnemyLayer;
 
 		powerupTimer = Time.time;
 	}
@@ -329,7 +303,7 @@ public class PlayerScript : MonoBehaviour {
 		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 		
 		activity.Call("setHighScore", ScrollingScript.getHeight(), PlayerCollisionScript.getKills());
-		activity.Call("setPowerups", convertPowerups());
+		//activity.Call("setPowerups", convertPowerups());
     }
 
 	private int[] convertPowerups()

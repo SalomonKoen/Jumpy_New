@@ -8,17 +8,18 @@ import com.unity3d.player.UnityPlayerActivity;
 
 public class GameActivity extends UnityPlayerActivity
 {
-	private JumpyApplication application = (JumpyApplication)getApplication();
+	private JumpyApplication application;
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+    	application = (JumpyApplication)getApplication();
         super.onCreate(savedInstanceState);
     }
     
     public ArrayList<HighScore> getHighScores()
     {
-    	return application.getHelper().getHighScores(application.getPlayer().getId());
+    	return application.getHelper().getHighScores();
     }
     
     public void setHighScore(int height, int kills)
@@ -26,14 +27,34 @@ public class GameActivity extends UnityPlayerActivity
     	application.getHelper().addHighScore(new HighScore(application.getPlayer().getId(), application.getPlayer().getName(), kills, height));
     }
     
-    public ArrayList<Powerup> getPowerups()
+    public HighScore getHighScore(int index)
     {
-    	return application.getPlayer().getPowerups();
+    	return application.getHelper().getHighScore(index);
+    }
+    
+    public int getHighScoresCount()
+    {
+    	return application.getHelper().getHighScoresCount();
+    }
+    
+    public Powerup getPowerup(int index)
+    {
+    	return application.getPlayer().getPowerups().get(index);
     }
     
     public void setPowerups(int[] powerups)
     {
     	application.getPlayer().setPowerups(powerups);
+    }
+    
+    public int getPowerupsCount()
+    {
+    	return application.getPlayer().getPowerups().size();
+    }
+    
+    public int getCharacter()
+    {
+    	return application.getPlayer().getCharacter();
     }
 }
 

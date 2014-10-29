@@ -50,10 +50,15 @@ public class ProfileActivity extends Activity
 				
 				app.setPlayer(player);
 				
+				selected = null;
+				
 				Profile profile = new Profile(name, player.getId());
 				adapter.add(profile);
 				
 				adapter.changeProfile(profile);
+				
+				btnChangeProfile.setEnabled(false);
+				btnDeleteProfile.setEnabled(false);
 			}
 		});
 
@@ -169,6 +174,7 @@ public class ProfileActivity extends Activity
 			@Override
 			public void onClick(View v) {
 				ShowDeleteAlert();
+				
 			}
 		});
 		
@@ -188,6 +194,14 @@ public class ProfileActivity extends Activity
 				
 				selected = profiles.get(position);
 				selected.setSelected(true);
+				
+				if (selected.isActive())
+				{
+					btnChangeProfile.setEnabled(false);
+				}
+				else 
+					btnChangeProfile.setEnabled(true);				
+				
 				adapter.notifyDataSetChanged();
 			}
 		});
@@ -202,6 +216,7 @@ public class ProfileActivity extends Activity
 				application.getHelper().savePlayer(application.getPlayer());
 				application.setPlayer(selected);
 				adapter.setActive(selected);
+				btnChangeProfile.setEnabled(false);
 			}
 		});
 

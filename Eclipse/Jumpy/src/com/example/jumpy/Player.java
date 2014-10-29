@@ -8,6 +8,8 @@ public class Player
 	private String name;
 	private int coins;
 	
+	private int character = 0;
+	
 	private Inventory inventory;
 	
 	public Player(int id, String name, int coins, Inventory inventory)
@@ -16,6 +18,16 @@ public class Player
 		this.name = name;
 		this.coins = coins;
 		this.inventory = inventory;
+	}
+	
+	public void setCharacter(int character)
+	{
+		this.character = character;
+	}
+	
+	public int getCharacter()
+	{
+		return character;
 	}
 
 	public int getId()

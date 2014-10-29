@@ -19,7 +19,7 @@ public class HighScoreActivity extends Activity
 		
 		JumpyApplication application = (JumpyApplication)getApplication();
 		
-		List<HighScore> items = application.getHelper().getHighScores(application.getPlayer().getId());
+		List<HighScore> items = application.getHelper().getHighScores(application.getPlayer().getId(), application.getPlayer().getName());
 
 		HighScoreAdapter adapter = new HighScoreAdapter(this, items);
 		highscores.setAdapter(adapter);

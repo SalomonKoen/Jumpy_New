@@ -85,35 +85,22 @@ public class GameGenerator : MonoBehaviour
 			maxObj = (GameObject)Instantiate(curPlatform, new Vector3(Random.Range(-size.x+curPlatform.renderer.bounds.size.x/2, size.x-curPlatform.renderer.bounds.size.x/2), curPoint), Quaternion.identity);
         }
 
-		highscores = new List<HighScore>();
-		highscores.Add(new HighScore("Salomon", 210));
-		highscores.Add(new HighScore("Salomon", 200));
-		highscores.Add(new HighScore("Salomon", 190));
-		highscores.Add(new HighScore("Salomon", 180));
-		highscores.Add(new HighScore("Salomon", 170));
-		highscores.Add(new HighScore("Salomon", 160));
-		highscores.Add(new HighScore("Salomon", 150));
-		highscores.Add(new HighScore("Salomon", 140));
-		highscores.Add(new HighScore("Salomon", 130));
-		highscores.Add(new HighScore("Salomon", 120));
-		highscores.Add(new HighScore("Salomon", 110));
-		highscores.Add(new HighScore("Salomon", 100));
-		highscores.Add(new HighScore("Salomon", 90));
-		highscores.Add(new HighScore("Salomon", 80));
-		highscores.Add(new HighScore("Salomon", 70));
-		highscores.Add(new HighScore("Salomon", 60));
-		highscores.Add(new HighScore("Salomon", 50));
-		highscores.Add(new HighScore("Salomon", 40));
-		highscores.Add(new HighScore("Salomon", 30));
-		highscores.Add(new HighScore("Salomon", 20));
-		highscores.Add(new HighScore("Salomon", 10));
+		TextMesh prevText = null;
 
 		for(int i = 0; i < highscores.Count; i++)
 		{
 			HighScore h = highscores[i];
-			Transform score = (Transform)Instantiate(scorePrefab, new Vector3(0, h.getHeight() + Camera.main.ScreenToWorldPoint(new Vector2(0, Camera.main.pixelHeight/2)).y, scorePrefab.position.z), Quaternion.identity);
-			TextMesh text = score.transform.GetChild(0).GetComponent<TextMesh>();
-			text.text = (i+1).ToString() + " - " + h.getName();
+
+			if (prevText != null && highscores[i-1].getHeight() == h.getHeight())
+			{
+				prevText.text = prevText.text + ", " + h.getName();
+			}
+			else
+			{
+				Transform score = (Transform)Instantiate(scorePrefab, new Vector3(0, h.getHeight() + Camera.main.ScreenToWorldPoint(new Vector2(0, Camera.main.pixelHeight/2)).y, scorePrefab.position.z), Quaternion.identity);
+				TextMesh text = score.transform.GetChild(0).GetComponent<TextMesh>();
+				text.text = (i+1).ToString() + " - " + h.getName();
+			}
 		}
 
 		spawnObjects();
@@ -188,7 +175,7 @@ public class GameGenerator : MonoBehaviour
 			else if (!inbetween && !ScrollingScript.isTransition)
 			{
 				combine = false;
-				newHeight = ScrollingScript.getHeight() + 10;
+				newHeight = ScrollingScript.getHeight() + 100;
 
 				curPlatform = nextPlatform;
 				enemyProb *= 1.3f;
