@@ -18,4 +18,14 @@ public class Powerup
 	{
 		return quantity;
 	}
+
+	public int getType()
+	{
+		return type;
+	}
+
+	public double getValue()
+	{
+		return value;
+	}
 }

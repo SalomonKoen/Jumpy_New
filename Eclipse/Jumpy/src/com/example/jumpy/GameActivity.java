@@ -49,12 +49,53 @@ public class GameActivity extends UnityPlayerActivity
     
     public int getPowerupsCount()
     {
-    	return application.getPlayer().getPowerups().size();
+    	int i = application.getPlayer().getPowerups().size();
+    	return i;
     }
     
     public int getCharacter()
     {
     	return application.getPlayer().getCharacter();
+    }
+    
+    public void finishActivity()
+    {
+    	finish();
+    }
+    
+    @Override
+    protected void onPause()
+    {
+    	super.onPause();
+    	
+    	JumpyApplication app = (JumpyApplication)this.getApplication();
+		
+		Settings.savePlayer(getSharedPreferences("Settings", 0), app.getPlayer().getId());
+		
+		if (this.isFinishing())
+		{
+			app.pause();
+			
+			app.getHelper().savePlayer(app.getPlayer());
+			
+			app.closeConnection();
+		}
+    }
+    
+    public int getEffectsVolume()
+    {
+    	return Settings.getEffects();
+    }
+    
+    public int getMusicVolume()
+    {
+    	return Settings.getMusic();
+    }
+    
+    public void addCoins(int coins)
+    {
+    	application.getPlayer().addCoins(coins);
+    	application.getHelper().savePlayer(application.getPlayer());
     }
 }
 

@@ -62,6 +62,7 @@
      <Compile Include="Assets\Facebook\Scripts\IOSFacebook.cs" />
      <Compile Include="Assets\Facebook\Scripts\IOSFacebookLoader.cs" />
      <Compile Include="Assets\Facebook\Scripts\NativeDialogModes.cs" />
+     <Compile Include="Assets\Scripts\BackScript.cs" />
      <Compile Include="Assets\Scripts\BulletScript.cs" />
      <Compile Include="Assets\Scripts\EnemyScript.cs" />
      <Compile Include="Assets\Scripts\ExtensionMethods.cs" />

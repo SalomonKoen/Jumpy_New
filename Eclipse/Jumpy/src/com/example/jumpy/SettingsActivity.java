@@ -20,8 +20,7 @@ public class SettingsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
-		
-		rgGraphics = (RadioGroup)findViewById(R.id.rgGraphics);		
+			
 		seekMusic =  (SeekBar)findViewById(R.id.seekMusic);
 		seekEffects =  (SeekBar)findViewById(R.id.seekEffects);
 		
@@ -74,15 +73,6 @@ public class SettingsActivity extends Activity
 			Settings.loadSettings(getSharedPreferences("Settings", 0), (JumpyApplication)this.getApplication());
 		}
 		
-		int quality = Settings.getGraphics();
-		
-		if (quality == 0)
-			rgGraphics.check(R.id.rbtnLow);
-		else if (quality == 1)
-			rgGraphics.check(R.id.rbtnMedium);
-		else
-			rgGraphics.check(R.id.rbtnHigh);
-		
 		seekMusic.setProgress(Settings.getMusic());
 		seekEffects.setProgress(Settings.getEffects());
 	}
@@ -106,17 +96,8 @@ public class SettingsActivity extends Activity
 	}
 	
 	public void onSaveClick(View view)
-	{
-		int quality = 1;
-		
-		if (rgGraphics.getCheckedRadioButtonId() == R.id.rbtnLow)
-			quality = 0;
-		else if (rgGraphics.getCheckedRadioButtonId() == R.id.rbtnMedium)
-			quality = 1;
-		else
-			quality = 2;
-		
-		Settings.saveSettings(getSharedPreferences("Settings", 0), seekMusic.getProgress(), seekEffects.getProgress(), quality);
+	{	
+		Settings.saveSettings(getSharedPreferences("Settings", 0), seekMusic.getProgress(), seekEffects.getProgress());
 		
 		finish();
 	}

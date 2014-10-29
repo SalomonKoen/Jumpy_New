@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Parse;
 
 public class PlayerScript : MonoBehaviour {
@@ -36,7 +37,7 @@ public class PlayerScript : MonoBehaviour {
 
 	private float powerupTimer;
 
-	private Powerup[] powerups;
+	private List<Powerup> powerups = new List<Powerup>();
 
 	private static Transform curTransform;
 
@@ -44,9 +45,6 @@ public class PlayerScript : MonoBehaviour {
 	{
 		return curTransform;
 	}
-
-	private BoxCollider2D box;
-	private float boxWidth;
 
 	public static float distance = 0;
 
@@ -58,8 +56,6 @@ public class PlayerScript : MonoBehaviour {
     void Start()
     {
 		curTransform = transform;
-		box = transform.GetChild(0).GetComponent<BoxCollider2D>();
-		boxWidth = box.size.x*transform.localScale.x;
     }
 
 	void Update()
@@ -292,7 +288,7 @@ public class PlayerScript : MonoBehaviour {
 		return move;
 	}
 
-	public void setPowerups(Powerup[] powerups)
+	public void setPowerups(List<Powerup> powerups)
 	{
 		this.powerups = powerups;
 	}
@@ -303,30 +299,30 @@ public class PlayerScript : MonoBehaviour {
 		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 		
 		activity.Call("setHighScore", ScrollingScript.getHeight(), PlayerCollisionScript.getKills());
-		//activity.Call("setPowerups", convertPowerups());
+		activity.Call("setPowerups", convertPowerups());
+		activity.Call ("addCoins", (PlayerCollisionScript.getKills() * 10) + ScrollingScript.getHeight());
     }
 
 	private int[] convertPowerups()
 	{
-		int[] p = new int[powerups.Length];
+		int[] p = new int[powerups.Capacity];
 
-		for (int i = 0; i < powerups.Length;i++)
+		for (int i = 0; i < powerups.Capacity;i++)
 		{
 			p[i] = powerups[i].getQuantity();
 
-			if (transform.position.y < 0)
+			/*if (transform.position.y < 0)
 			{
 				GameObject c = GameObject.Find("Main Camera");
 				c.AddComponent("ShowSummary");
 
 				Time.timeScale = 0;
-
 					
 				ParseObject scoreObject = new ParseObject("Highscore");
 				scoreObject["UserName"] = "Martin";
 				scoreObject["UserScore"] = Mathf.Ceil(distance/10);
 				scoreObject.SaveAsync();
-			}
+			}*/
 		}
 
 		return p;

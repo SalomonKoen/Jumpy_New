@@ -38,7 +38,7 @@ public class Inventory implements Iterable<Item>
 			@Override
 			public Item next()
 			{
-				return items.get(pos);
+				return items.get(pos++);
 			}
 			
 			@Override

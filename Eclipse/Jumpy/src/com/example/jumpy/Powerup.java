@@ -21,4 +21,10 @@ public class Powerup extends Item
 	{
 		return value;
 	}
+	
+	@Override
+	public int getQuantity()
+	{
+		return this.quantity;
+	}
 }

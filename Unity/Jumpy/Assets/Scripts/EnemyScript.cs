@@ -12,7 +12,7 @@ public class EnemyScript : MonoBehaviour
 	
 	void Update ()
     {
-		if (transform.parent.position.y + renderer.bounds.size.y/2 < 0)
+		if (transform.parent.position.y + GetComponent<BoxCollider2D>().size.y/2 < 0)
 		{
 			Destroy (this.transform.parent.gameObject);
 		}

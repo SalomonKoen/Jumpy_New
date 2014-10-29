@@ -7,7 +7,6 @@ public class Settings
 {
 	private static int music = 100;
 	private static int effects = 100;
-	private static int graphics = 1;
 	private static int player_id = 0;
 	
 	private static boolean loaded = false;
@@ -16,7 +15,6 @@ public class Settings
 	{
 		music = preferences.getInt("musicVolume", music);
 		effects = preferences.getInt("effectsVolume", effects);
-		graphics = preferences.getInt("graphicsQuality", graphics);
 		player_id = preferences.getInt("playerID", player_id);
 		
 		SQLiteHelper helper = app.getHelper();
@@ -31,11 +29,6 @@ public class Settings
 		loaded = true;
 		
 		return true;
-	}
-
-	public static int getGraphics()
-	{
-		return graphics;
 	}
 
 	public static int getMusic()
@@ -53,17 +46,15 @@ public class Settings
 		return loaded;
 	}
 
-	public static void saveSettings(SharedPreferences preferences, int music, int effects, int graphics)
+	public static void saveSettings(SharedPreferences preferences, int music, int effects)
 	{
 		Editor editor = preferences.edit();
 		
 		Settings.music = music;
 		Settings.effects = effects;
-		Settings.graphics = graphics;
 		
 		editor.putInt("musicVolume", music);
 		editor.putInt("effectsVolume", effects);
-		editor.putInt("graphicsQuality", graphics);
 		
 		editor.commit();
 	}

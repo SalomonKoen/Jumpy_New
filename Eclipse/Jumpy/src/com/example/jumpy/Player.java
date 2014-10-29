@@ -75,6 +75,11 @@ public class Player
 		
 		return powerups; 
 	}
+	
+	public void addCoins(int coins)
+	{
+		this.coins += coins;
+	}
 
 	public void setPowerups(int[] powerups)
 	{
