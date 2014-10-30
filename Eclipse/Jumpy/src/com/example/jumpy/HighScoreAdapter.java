@@ -38,10 +38,12 @@ public class HighScoreAdapter extends ArrayAdapter<HighScore>
 		// get text views that will hold strings
 		TextView txtName = (TextView) convertView.findViewById(R.id.tvName);
 		TextView txtHeight = (TextView) convertView.findViewById(R.id.tvHeight);
+		TextView txtKills = (TextView) convertView.findViewById(R.id.tvKills);
 		
 		// set text fields
 		txtName.setText(scores.get(position).getName());
 		txtHeight.setText(String.valueOf(scores.get(position).getHeight()));
+		txtKills.setText(String.valueOf(scores.get(position).getKills()));
 		
 		// return view to ListView to display
 		return convertView;

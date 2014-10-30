@@ -8,12 +8,20 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends Activity
 {
 	private Intent musicService;
 	private boolean resumed = false;
+	
+	private Button btnFrog;
+	private Button btnRabbit;
+	private Button btnKangaroo;
+	
+	private TextView txtPlayerName;
 	
 	@Override
 	protected void onStart()
@@ -26,6 +34,12 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
+		
+		txtPlayerName = (TextView)findViewById(R.id.txtPlayerName);
+		
+		btnFrog = (Button)findViewById(R.id.btnFrog);
+		btnRabbit = (Button)findViewById(R.id.btnRabbit);
+		btnKangaroo = (Button)findViewById(R.id.btnKangaroo);
 		
 		JumpyApplication app = (JumpyApplication)this.getApplication();
 		
@@ -62,6 +76,8 @@ public class MainActivity extends Activity
 				String name = input.getText().toString();
 				
 				app.setPlayer(helper.addPlayer(name));
+				
+				txtPlayerName.setText(app.getPlayer().getName());
 			 }
 		});
 
@@ -168,7 +184,38 @@ public class MainActivity extends Activity
 			if (!Settings.loadSettings(getSharedPreferences("Settings", 0), app))
 				ShowAlert();
 		}
+		else
+		{
+			txtPlayerName.setText(app.getPlayer().getName());
+		}
 		
 		super.onResume();
+	}
+	
+	public void onKangarooClick(View view)
+	{
+		JumpyApplication app = (JumpyApplication)this.getApplication();
+		app.getPlayer().setCharacter(1);
+		view.setBackgroundResource(R.drawable.kangarooblue);
+		btnFrog.setBackgroundResource(R.drawable.frog);
+		btnRabbit.setBackgroundResource(R.drawable.rabbit);
+	}
+	
+	public void onFrogClick(View view)
+	{
+		JumpyApplication app = (JumpyApplication)this.getApplication();
+		app.getPlayer().setCharacter(0);
+		view.setBackgroundResource(R.drawable.frogblue);
+		btnRabbit.setBackgroundResource(R.drawable.rabbit);
+		btnKangaroo.setBackgroundResource(R.drawable.kangaroo);
+	}
+	
+	public void onRabbitClick(View view)
+	{
+		JumpyApplication app = (JumpyApplication)this.getApplication();
+		app.getPlayer().setCharacter(2);
+		view.setBackgroundResource(R.drawable.rabbitblue);
+		btnFrog.setBackgroundResource(R.drawable.frog);
+		btnKangaroo.setBackgroundResource(R.drawable.kangaroo);
 	}
 }

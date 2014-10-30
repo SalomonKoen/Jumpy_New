@@ -86,7 +86,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
 				"null, 'Time Slow', 'Slows down time for 10 seconds.', 200, " + R.drawable.item2 + ", 1, 1",
 				"null, 'Super Shooter', 'Increases the rate of fire for 10 seconds.', 100, " + R.drawable.item1 + ", 1, 1",
 				"null, 'No Enemies', 'Removes all enemies for 30 seconds.', 300, " + R.drawable.item3 + ", 1, 1",
-				"null, 'Indestructible', 'Makes you indestructible for 15 seconds', 400, " + R.drawable.item4 + ", 1, 1",
+				"null, 'Indestructible', 'Makes you indestructible for 15 seconds', 400, " + R.drawable.item4 + ", 1, 1"
 		};
 		
 		for (String s : items)
@@ -195,8 +195,8 @@ public class SQLiteHelper extends SQLiteOpenHelper
 	{
 		ArrayList<HighScore> highScores = new ArrayList<HighScore>();
 		
-		String sql = "SELECT HighScore.player_id, HighScore.kills, HighScore.height FROM HighScore"
-				+ "WHERE HighScore.player_id=Player.player_id "
+		String sql = "SELECT HighScore.player_id, HighScore.kills, HighScore.height FROM HighScore, Player"
+				+ " WHERE HighScore.player_id=Player.player_id "
 				+ "AND Player.player_id = " + player_id
 						+ " ORDER BY height DESC, kills;";
 		

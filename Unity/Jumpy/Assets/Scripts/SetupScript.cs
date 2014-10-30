@@ -26,6 +26,12 @@ public class SetupScript : MonoBehaviour {
 
 		player = (GameObject)Instantiate(players[c]);
 
+		string name = activity.Call<string>("getPlayer");
+		player.GetComponent<PlayerScript>().name = name;
+
+		GameObject cam = GameObject.Find("Main Camera");
+		cam.GetComponent<HUDScript>().player = player;
+
 		int n = activity.Call<int>("getPowerupsCount");
 
 		List<Powerup> powerups = new List<Powerup>();

@@ -7,7 +7,11 @@ public class PlayerScript : MonoBehaviour {
 
 	public static float speed = 1f;
 
+	public HUDScript hud;
+
     public float jumpForce = 10f;
+
+	public string name = "";
 
 	public static bool Pause = false;
 
@@ -92,6 +96,16 @@ public class PlayerScript : MonoBehaviour {
 
 			if (Input.touchCount > 0 && Time.time > nextFire)
 			{
+				Rect rect = new Rect(Screen.width/2-100, Screen.height-50, 200, 60);
+				Rect rect2 = new Rect(Screen.width-44,4, 40,40);
+				
+				if ((hud.showGUI && rect.Contains(new Vector2(Input.GetTouch(0).position.x, Screen.height - Input.GetTouch(0).position.y))) || rect2.Contains(new Vector2(Input.GetTouch(0).position.x, Screen.height - Input.GetTouch(0).position.y)))
+					return;
+
+				GameObject shootSound = GameObject.Find("Sounds").transform.Find("Shoot").gameObject;
+                AudioSource ac = shootSound.GetComponent<AudioSource>();
+                ac.audio.Play();
+
 				gunRotReset = Time.time;
 				nextFire = Time.time + fireRate;
 				Vector2 direction = (Input.GetTouch(0).position - new Vector2(Screen.width / 2, 0)).normalized;
@@ -129,6 +143,16 @@ public class PlayerScript : MonoBehaviour {
 			{
 				if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
 				{
+					Rect rect = new Rect(Screen.width/2-100, Screen.height-50, 200, 60);
+					Rect rect2 = new Rect(Screen.width-44,4, 40,40);
+
+					if ((hud.showGUI && rect.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y))) || rect2.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y)))
+						return;
+
+					GameObject shootSound = GameObject.Find("Sounds").transform.Find("Shoot").gameObject;
+					AudioSource ac = shootSound.GetComponent<AudioSource>();
+					ac.audio.Play();
+
 					gunRotReset = Time.time;
 					nextFire = Time.time + fireRate;
 					Vector3 direction = (Input.mousePosition - new Vector3(Screen.width / 2, 0)).normalized;
@@ -200,6 +224,9 @@ public class PlayerScript : MonoBehaviour {
 	            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce*speed);
 				animator.SetBool("Fall", false);
 				animator.SetBool ("Jump", true);
+				GameObject jumpSound = GameObject.Find("Sounds").transform.Find("Jump").gameObject;
+				AudioSource ac = jumpSound.GetComponent<AudioSource>();
+				ac.audio.Play();
 	            gameObject.layer = 8;
 				transform.GetChild(1).gameObject.layer = 8;
 	            jump = false;
@@ -231,6 +258,8 @@ public class PlayerScript : MonoBehaviour {
 			if (!indestructible)
 			{
 	            Time.timeScale = 0;
+				GameObject c = GameObject.Find("Main Camera");
+				c.AddComponent("ShowSummary");
 				sendData();
 			}
 			else
@@ -301,6 +330,11 @@ public class PlayerScript : MonoBehaviour {
 		activity.Call("setHighScore", ScrollingScript.getHeight(), PlayerCollisionScript.getKills());
 		activity.Call("setPowerups", convertPowerups());
 		activity.Call ("addCoins", (PlayerCollisionScript.getKills() * 10) + ScrollingScript.getHeight());
+			
+		ParseObject scoreObject = new ParseObject("Highscore");
+		scoreObject["UserName"] = name;
+		scoreObject["UserScore"] = Mathf.Ceil(distance/10);
+		scoreObject.SaveAsync();
     }
 
 	private int[] convertPowerups()
@@ -310,19 +344,6 @@ public class PlayerScript : MonoBehaviour {
 		for (int i = 0; i < powerups.Capacity;i++)
 		{
 			p[i] = powerups[i].getQuantity();
-
-			/*if (transform.position.y < 0)
-			{
-				GameObject c = GameObject.Find("Main Camera");
-				c.AddComponent("ShowSummary");
-
-				Time.timeScale = 0;
-					
-				ParseObject scoreObject = new ParseObject("Highscore");
-				scoreObject["UserName"] = "Martin";
-				scoreObject["UserScore"] = Mathf.Ceil(distance/10);
-				scoreObject.SaveAsync();
-			}*/
 		}
 
 		return p;

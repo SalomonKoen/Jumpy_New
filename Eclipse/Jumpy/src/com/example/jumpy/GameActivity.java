@@ -53,6 +53,11 @@ public class GameActivity extends UnityPlayerActivity
     	return i;
     }
     
+    public String getPlayer()
+    {
+    	return application.getPlayer().getName();
+    }
+    
     public int getCharacter()
     {
     	return application.getPlayer().getCharacter();

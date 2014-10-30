@@ -44,6 +44,7 @@ public class PlayerCollisionScript : MonoBehaviour {
 					script.setJump(true);
 					player.layer = 8;
 					player.transform.GetChild(1).gameObject.layer = 8;
+
 					Destroy(collision.gameObject);
 				}
 				else

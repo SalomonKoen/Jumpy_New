@@ -1,66 +1,143 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="top"
+    android:background="@drawable/space"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        <TextView
+            style="@style/txtStyleJumpy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Jumpy" />
         
-	    <Button
-	        android:id="@+id/button1"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:onClick="onPlayClick"
-	        android:text="Play" />
-	
-	    <Button
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:onClick="onStoreClick"
-	        android:text="Store" />
-	
-	    <Button
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:onClick="onProfileClick"
-	        android:text="Profiles" />
-	
-	    <Button
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-	        android:onClick="onHighScoreClick"
-	        android:text="High Scores" />
+        <TextView
+            android:id="@+id/txtPlayerName"
+            style="@style/txtStyleJumpy2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Jumpy"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:id="@+id/button1"
+            style="@style/btnStyleGenoa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="onPlayClick"
+            android:text="Play" />
+
+        <Button
+            style="@style/btnStyleGenoa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="onStoreClick"
+            android:text="Store" />
+
+        <Button
+            style="@style/btnStyleGenoa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="onProfileClick"
+            android:text="Profiles" />
+
+        <Button
+            style="@style/btnStyleGenoa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:onClick="onHighScoreClick"
+            android:text="High Scores" />
     
-    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+	
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <Button
+                android:id="@+id/btnRabbit"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:background="@drawable/rabbit"
+                android:onClick="onRabbitClick"
+                android:layout_margin="10dp" />
+            
+            </LinearLayout>
+            
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/btnFrog"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:background="@drawable/frogblue"
+                android:onClick="onFrogClick"
+                android:layout_margin="10dp" />
+            
+            </LinearLayout>
+            
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/btnKangaroo"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:background="@drawable/kangaroo"
+                android:onClick="onKangarooClick"
+                android:layout_margin="10dp" />
+            
+            </LinearLayout>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true" >
-    
-	    <Button
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:onClick="onSettingsClick"
-	        android:text="Settings" />
-	
-	    <Button
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:onClick="onQuitClick"
-	        android:text="Quit" />
-    
+        android:orientation="horizontal" >
+
+        <Button
+            style="@style/btnStyleGenoa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onSettingsClick"
+            android:text="Settings"
+            android:layout_margin="10dp" />
+
+        <Button
+            style="@style/btnStyleBlackpearl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onQuitClick"
+            android:text="Quit"
+            android:layout_margin="10dp" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

@@ -30,6 +30,8 @@ public class EnemyScript : MonoBehaviour
 
 	void OnCollisionEnter2D(Collision2D collision)
 	{
-
+		GameObject enemySound = GameObject.Find("Sounds").transform.Find("Enemy").gameObject;
+		AudioSource ac = enemySound.GetComponent<AudioSource>();
+		ac.audio.Play();
 	}
 }
