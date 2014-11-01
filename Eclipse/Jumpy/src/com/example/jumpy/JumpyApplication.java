@@ -15,8 +15,8 @@ public class JumpyApplication extends Application
 	{
 		super.onCreate();
 		
-		music = MediaPlayer.create(this, R.raw.background_music);
-		music.setLooping(true);
+		//music = MediaPlayer.create(this, R.raw.background_music);
+		//music.setLooping(true);
 	}
 	
 	public Player getPlayer()
@@ -52,16 +52,16 @@ public class JumpyApplication extends Application
 
 	public void pause()
 	{
-		music.stop();
+		//music.stop();
 	}
 	
 	public void resume()
 	{
-		music.start();
+		//music.start();
 	}
 
 	public void setVolume(int volume)
 	{
-		music.setVolume(volume, volume);
+		//music.setVolume(volume, volume);
 	}
 }

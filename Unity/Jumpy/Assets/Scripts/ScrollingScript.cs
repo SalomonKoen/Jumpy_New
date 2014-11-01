@@ -7,7 +7,7 @@ public class ScrollingScript : MonoBehaviour
 {
 	public static Vector2 speed = new Vector2(0, 0);
 
-	private static float height = 0;
+	public static float height = 0;
 
     public float speedMultiplier = 1f;
 	public Vector2 direction = new Vector2(0, -1);
@@ -41,6 +41,12 @@ public class ScrollingScript : MonoBehaviour
 
 	void Start()
 	{
+		isLeftTrans = false;
+		isRightTrans = false;
+		isBackTrans = false;
+		isTransition = false;
+		paused = false;
+		speed = new Vector2(0, 0);
 		if (isLooping)
 		{
 			backgroundPart = new List<Transform>();

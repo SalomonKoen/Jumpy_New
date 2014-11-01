@@ -2,6 +2,7 @@ package com.example.jumpy;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.unity3d.player.UnityPlayerActivity;
@@ -67,11 +68,11 @@ public class GameActivity extends UnityPlayerActivity
     {
     	finish();
     }
-    
+
     @Override
     protected void onPause()
     {
-    	super.onPause();
+    	super.onDestroy();
     	
     	JumpyApplication app = (JumpyApplication)this.getApplication();
 		

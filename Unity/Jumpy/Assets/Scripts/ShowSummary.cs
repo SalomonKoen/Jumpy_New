@@ -9,7 +9,7 @@ public class ShowSummary : MonoBehaviour {
 		GameObject enemySound = GameObject.Find("Sounds").transform.Find("Restart").gameObject;
 		AudioSource ac = enemySound.GetComponent<AudioSource>();
 		ac.audio.Play();
-		Destroy(GameObject.Find("Main Camera").GetComponent<HUDScript>());
+		GameObject.Find("Main Camera").GetComponent<HUDScript>().hide = true;
 	}
 	
 	// Update is called once per frame
@@ -18,45 +18,65 @@ public class ShowSummary : MonoBehaviour {
 	}
 
 	void OnGUI () {
+		GUIStyle textStyle = new GUIStyle("label");
+		textStyle.alignment = TextAnchor.MiddleCenter;
+		textStyle.fontSize = 80;
+		textStyle.fontStyle = FontStyle.Bold;
 		// Make a background box
-		GUI.Box(new Rect(10,10,Screen.width-20,Screen.height-20), "Summary");
+
+		GUIStyle buttonStyle = new GUIStyle("button");
+		buttonStyle.fontSize = 50;
+
+		GUI.Box(new Rect(10,10,Screen.width-20,Screen.height-20), "");
+
+		GUI.Label(new Rect(Screen.width/2-400, 50, 800, 150), "Summary", textStyle);
 
 		GUIStyle centeredTextStyle = new GUIStyle("label");
 		centeredTextStyle.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(0,50,Screen.width,100), "Kills: " + PlayerCollisionScript.getKills(), centeredTextStyle);
+		centeredTextStyle.fontSize = 50;
+		centeredTextStyle.fontStyle = FontStyle.Bold;
 
-		GUI.Label(new Rect(0,50,Screen.width,150), "Distance: " + ScrollingScript.getHeight(),centeredTextStyle);
+		GUI.Label(new Rect(Screen.width/2-400,150, 800,150), "Height: " + ScrollingScript.getHeight(),centeredTextStyle);
+		GUI.Label(new Rect(Screen.width/2-400,250, 800,150), "Kills: " + PlayerCollisionScript.getKills(), centeredTextStyle);
 
+
+		if (!FB.IsLoggedIn)                                                                                              
+		{                                                          
+			//GUI.Label((new Rect(179 , 11, 287, 160)), "Login to Facebook");             
+			if (GUI.Button(new Rect(Screen.width/2-300,400,600,130), "Login to Facebook", buttonStyle))                                      
+			{                                                                                                            
+				//FB.Login("email,publish_actions", LoginCallback);                                                        
+			}                                                                                                            
+		} 
+		
+		// Make the second button.
+		else if(GUI.Button(new Rect(Screen.width/2-200,400,400,130), "Share", buttonStyle)) {
+			if (FB.IsLoggedIn)
+			{
+				/*FB.Feed(                                                                                                                 
+				        linkCaption: "I just reached " + PlayerScript.distance + "! Can you beat it?",               
+				        picture: "http://www.friendsmash.com/images/logo_large.jpg",                                                     
+				        linkName: "Checkout my Jumpy greatness!",                                                                 
+				        link: "http://apps.facebook.com/" + FB.AppId + "/?challenge_brag=" + (FB.IsLoggedIn ? FB.UserId : "guest")       
+				        );*/     
+			}
+		}
 		
 		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
-		if(GUI.Button(new Rect(20,40,Screen.width-40,20), "Restart")) {
+		if(GUI.Button(new Rect(Screen.width/2-200,550,400,130), "Restart", buttonStyle)) {
 			PlayerScript.distance = 0;
 			Time.timeScale = 1;
 
 			Application.LoadLevel(0);
 		}
 
-		if (!FB.IsLoggedIn)                                                                                              
-		{                                                          
-			//GUI.Label((new Rect(179 , 11, 287, 160)), "Login to Facebook");             
-			if (GUI.Button(new Rect(20,70,Screen.width-40,20), "Login to Facebook"))                                      
-			{                                                                                                            
-				FB.Login("email,publish_actions", LoginCallback);                                                        
-			}                                                                                                            
-		} 
-		
-		// Make the second button.
-		else if(GUI.Button(new Rect(20,70,Screen.width-40,20), "Share")) {
-			if (FB.IsLoggedIn)
-			{
-				FB.Feed(                                                                                                                 
-				        linkCaption: "I just reached " + PlayerScript.distance + "! Can you beat it?",               
-				        picture: "http://www.friendsmash.com/images/logo_large.jpg",                                                     
-				        linkName: "Checkout my Jumpy greatness!",                                                                 
-				        link: "http://apps.facebook.com/" + FB.AppId + "/?challenge_brag=" + (FB.IsLoggedIn ? FB.UserId : "guest")       
-				        );     
-			}
+
+
+		if(GUI.Button(new Rect(Screen.width/2-200,700,400,130), "Main Menu", buttonStyle)) {
+			Application.Quit();
 		}
+
+
 	}
 
 	void LoginCallback(FBResult result)                                                        

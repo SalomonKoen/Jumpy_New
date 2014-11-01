@@ -28,4 +28,9 @@ public class Powerup
 	{
 		return value;
 	}
+
+	public void use()
+	{
+		quantity--;
+	}
 }

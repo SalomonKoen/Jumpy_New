@@ -57,8 +57,15 @@ public class PlayerScript : MonoBehaviour {
 		return indestructible;
 	}
 
+	public List<Powerup> getPowerups()
+	{
+		return powerups;
+	}
+
     void Start()
     {
+		Pause = false;
+		distance = 0;
 		curTransform = transform;
     }
 
@@ -333,7 +340,7 @@ public class PlayerScript : MonoBehaviour {
 			
 		ParseObject scoreObject = new ParseObject("Highscore");
 		scoreObject["UserName"] = name;
-		scoreObject["UserScore"] = Mathf.Ceil(distance/10);
+		scoreObject["UserScore"] = ScrollingScript.getHeight();
 		scoreObject.SaveAsync();
     }
 

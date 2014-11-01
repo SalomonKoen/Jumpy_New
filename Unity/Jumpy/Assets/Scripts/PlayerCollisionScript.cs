@@ -13,6 +13,7 @@ public class PlayerCollisionScript : MonoBehaviour {
 	
 	void Start ()
 	{
+		kills = 0;
 		script = player.GetComponent<PlayerScript>();
 		box = this.GetComponent<BoxCollider2D>();
 		boxWidth = box.size.x*player.transform.localScale.x;
@@ -51,7 +52,6 @@ public class PlayerCollisionScript : MonoBehaviour {
 				{
 					script.setMove(false);
 					player.layer = 12;
-					player.transform.GetChild(0).gameObject.layer = 12;
 					player.transform.GetChild(1).gameObject.layer = 12;
 
 					Destroy(collision.gameObject);

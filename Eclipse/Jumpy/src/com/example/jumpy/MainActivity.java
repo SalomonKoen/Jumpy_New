@@ -183,6 +183,8 @@ public class MainActivity extends Activity
 			
 			if (!Settings.loadSettings(getSharedPreferences("Settings", 0), app))
 				ShowAlert();
+			else
+				txtPlayerName.setText(app.getPlayer().getName());
 		}
 		else
 		{
@@ -190,6 +192,11 @@ public class MainActivity extends Activity
 		}
 		
 		super.onResume();
+	}
+	
+	public void setPlayerName(String name)
+	{
+		txtPlayerName.setText(name);
 	}
 	
 	public void onKangarooClick(View view)

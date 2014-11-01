@@ -14,7 +14,10 @@ public class SetupScript : MonoBehaviour {
 
 	void Start ()
     {
+		ScrollingScript.height = 0;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
+		GameObject cam = GameObject.Find("Main Camera");
 
 		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
 		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
@@ -22,15 +25,27 @@ public class SetupScript : MonoBehaviour {
 		effects = activity.Call<int>("getEffectsVolume");
 		music = activity.Call<int>("getMusicVolume");
 
+		for (int i = 0; i < GameObject.Find("Sounds").transform.childCount; i++)
+		{
+			GameObject.Find("Sounds").transform.GetChild(i).GetComponent<AudioSource>().audio.volume = effects/100.0f;
+		}
+
+		GameObject.Find("Music").GetComponent<AudioSource>().audio.volume = music/100.0f;
+
 		int c = activity.Call<int>("getCharacter");
 
 		player = (GameObject)Instantiate(players[c]);
 
+		if (cam.GetComponent<ShowSummary>() != null)
+			Destroy(cam.GetComponent<ShowSummary>());
+
+		cam.GetComponent<HUDScript>().hide = false;
+		cam.GetComponent<HUDScript>().showGUI = true;
+
+		cam.GetComponent<HUDScript>().player = player;
+		player.GetComponent<PlayerScript>().hud = cam.GetComponent<HUDScript>();
 		string name = activity.Call<string>("getPlayer");
 		player.GetComponent<PlayerScript>().name = name;
-
-		GameObject cam = GameObject.Find("Main Camera");
-		cam.GetComponent<HUDScript>().player = player;
 
 		int n = activity.Call<int>("getPowerupsCount");
 
